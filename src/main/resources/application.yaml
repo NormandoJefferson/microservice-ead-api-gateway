@@ -3,14 +3,14 @@ server:
 
 spring:
   application:
-    name: ead-api-gateway
+    name: ead-api-gateway # Nome da aplicação para o Eureka
   cloud:
     gateway:
-      routes:
-        - id: authuser-service
-          uri: lb://ead-authuser-service
+      routes: # Rotas para os serviços que o gateway vai redirecionar
+        - id: authuser-service # Id de identificação da rota
+          uri: lb://ead-authuser-service # Nome da URI que o serviço se registrou no registry, o lb faz o balanceamento de carga
           predicates:
-            - Path=/ead-authuser/**
+            - Path=/ead-authuser/** # Tudo que vier apos 'ead-authuser' será redirecionado para a uri 'ead-authuser-service', tem que ser inserido no context-path do respectivo serviço
         - id: course-service
           uri: lb://ead-course-service
           predicates:
@@ -19,6 +19,6 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: 'http://localhost:8761/eureka'
+      defaultZone: 'http://localhost:8761/eureka' # Endereço onde está disponível o registry, para o api gateway se registrar nele
   instance:
     hostname: localhost
